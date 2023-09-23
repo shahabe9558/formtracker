@@ -4,22 +4,28 @@ import './App.css';
 
 function App() {
 
-const [formdata, setFormata] = useState({firstName: "", lastName: "", email: "", country: "", address: "", city: "", stateProvince: "", zipCode:""});
+const [formdata, setFormata] = useState({firstName: "", lastName: "", email: "", country: "", address: "", city: "", stateProvince: "", zipCode:"", comment: false, candidate: false, offers: "", mode: false});
 console.log("form dats is ", formdata);
  function changeHandler(event){
-  const {name, value} = event.target;
+  const {name, value, type, checked} = event.target;
+  console.log("Type is here", type);
+  console.log("checked is here", checked);
   setFormata(prevformdata => {
     return{
       ...prevformdata,
-      [name] : value
-
+      [name] : type === 'checkbox' ? checked : value,
     }
   });
+ }
+ function submitHandler(event){
+  event.preventDefault();
+  console.log(formdata);
+   console.log("Form Data Submitted");
  }
 
   return (
     <div className="">
-        <form className='w-10/12 flex flex-col border shadow-md mx-auto'>
+        <form onSubmit={submitHandler} className='w-10/12 flex flex-col shadow-lg rounded-md mx-auto mt-6'>
              <div className='w-[88%] flex flex-col mx-auto'>
                 <label className='font-bold' htmlFor='firstName' >First Name</label>
                   <input
@@ -118,11 +124,100 @@ console.log("form dats is ", formdata);
                   />
              </div> 
              <div className='w-[88%] flex flex-col mx-auto'>
-              hii
+                 <div
+                 className='font-bold'
+                 >By Mail
+                 <br></br>
+                      <input 
+                      type='checkbox'
+                      id = 'comments'
+                      onChange={changeHandler}
+                      name='comment'
+                      value={formdata.comment}
+                      checked = {formdata.comment}
+                      className=''
+                      />
+                      <label htmlFor='comments' className='mx-3'>Comments</label>
+                      <p className='mx-6'>Get Notified when someone comments on posting</p>
+                 </div>
              </div> 
+
+            <div className='w-[88%] flex flex-col mx-auto'>
+                 <div
+                 className='font-bold'
+                 >
+                 <br></br>
+                      <input 
+                      type='checkbox'
+                      id = 'candidate'
+                      onChange={changeHandler}
+                      name='candidate'
+                      value={formdata.candidate}
+                      checked = {formdata.candidate}
+                      className=''
+                      />
+                      <label htmlFor='candidate' className='mx-3'>Candidates</label>
+                      <p className='mx-6'>Get Notified when candidate apply for job</p>
+                 </div>
+             </div> 
+             <div className='w-[88%] flex flex-col mx-auto'>
+                 <div
+                 className='font-bold'
+                 >
+                 <br></br>
+                      <input 
+                      type='checkbox'
+                      id = 'offer'
+                      onChange={changeHandler}
+                      name='offers'
+                      value={formdata.offers}
+                      checked = {formdata.offers}
+                      className=''
+                      />
+                      <label htmlFor='offer' className='mx-3'>Offers</label>
+                      <p className='mx-6'>Get Notified when candidate apply for job</p>
+                 </div>
+             </div> 
+             <div className='w-[88%] flex flex-col mx-auto'>
+                <h6 className='font-bold'>Push Notification</h6>
+                <p>These are delivered via sms to your mobile phone </p>
+                <div className='space-x-3'>
+                    <input 
+                    type='radio'
+                    id='everi'
+                    onChange={changeHandler}
+                    name='mode'
+                    value={"everything"}
+                    checked = {formdata.mode === "everything"}
+                    />
+                    <label className='font-bold' htmlFor='everi'>Everything</label>
+                 </div>
+                 <div className='space-x-3'>
+                    <input 
+                    type='radio'
+                    id='everi'
+                    onChange={changeHandler}
+                    name='mode'
+                    value={"same as small"}
+                    checked = {formdata.mode === "same as small"}
+                    />
+                    <label className='font-bold' htmlFor='everi'>Same as Small</label>
+                 </div>
+                 <div className='space-x-3'>
+                    <input 
+                    type='radio'
+                    id='everi'
+                    onChange={changeHandler}
+                    name='mode'
+                    value={'No push notification'}
+                    checked = {formdata.mode === 'No push notification'}
+                    />
+                    <label className='font-bold' htmlFor='everi'>No push notification</label>
+                 </div>
+             </div>
+            <button className='shadow-md border rounded-md mx-auto py-2 w-fit bg-blue-500 hover:bg-slate-600'>Submit</button>
         </form>
     </div>
   );
 }
-
 export default App;
